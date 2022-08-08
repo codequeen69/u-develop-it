@@ -1,4 +1,7 @@
 const express = require('express');
+const mysql = require('mysql2');
+const { getMaxListeners } = require('process');
+const { demandCommand } = require('yargs');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -7,9 +10,22 @@ const app = express();
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-
-
-
+//connect to database
+const db = mysql.createConnection(
+    {
+        host:'localhost',
+        //My MySQL username,
+        user:'root',
+        //My MySQL password
+        password: 'Spiritussanctus1@',
+        database: 'election'
+    },
+    console.log('Connected to the election database.')
+)
+//query the database to check connection
+db.query(`SELECT * FROM candidates`, (err, rows) => {
+    console.log(rows);
+});
 //default response for any other request (not found)
 //a cathcall so put last otherwise will override other routes
 app.use((req,res) => {
