@@ -1,9 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
-const { getMaxListeners } = require('process');
-const { resourceLimits } = require('worker_threads');
-const { demandCommand } = require('yargs');
 const inputCheck = require('./utils/inputCheck');
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -24,17 +22,6 @@ const db = mysql.createConnection(
     console.log('Connected to the election database.')
 );
 
-// Create a candidate
-// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
-//             VALUES (?,?,?,?)`;
-// const params =[1, 'Ronald', 'Firbank', 1];
-
-// db.query(sql, params, (err, result) => {
-//     if (err){
-//         console.log(err);
-//     }
-//     console.log(result);
-// });
 // GET a single candidate
 app.get('/api/candidate/:id', (req, res) => {
     const sql = `SELECT * FROM candidates WHERE id = ?`;
